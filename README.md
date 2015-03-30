@@ -6,8 +6,9 @@ An extension for KirbyText making the picture element available as a tag. Althou
 
 1. Copy ‘picture.php’ inside ‘tags’ to Kirby’s ‘site/tags/‘ folder.
 2. Make sure you have picturefill.js, if not:
-  1 Copy ‘picturefill-2.2.0.min.js’ inside ‘assets/javascripts’ to Kirby’s ‘assets/javascripts/‘ folder or [download the latest version](http://scottjehl.github.io/picturefill/).
-  2 Place ```<?php echo js(‘assets/javascripts/picturefill-2.2.0.min.js’) ?>``` in your footer file above ```</body>```.
+
+  1. Copy ‘picturefill-2.2.0.min.js’ inside ‘assets/javascripts’ to Kirby’s ‘assets/javascripts/‘ folder or [download the latest version](http://scottjehl.github.io/picturefill/).
+  2. Place ```<?php echo js(‘assets/javascripts/picturefill-2.2.0.min.js’) ?>``` in your footer file above ```</body>```.
 
 ## Usage
 
