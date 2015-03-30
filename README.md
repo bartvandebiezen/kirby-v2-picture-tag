@@ -23,13 +23,13 @@ Be careful, you need to write the filename without an extension. The extension i
 
 Naming files should be done as follows:
 
-- filename.jpg (fall back)
-- filename~palm.jpg
-- filename~palm@2x.jpg
-- filename~lap.jpg
-- filename~lap@2x.jpg
-- filename~desk.jpg
-- filename~desk@2x.jpg
+- ```filename.jpg (fall back)```
+- ```filename~palm.jpg```
+- ```filename~palm@2x.jpg```
+- ```filename~lap.jpg```
+- ```filename~lap@2x.jpg```
+- ```filename~desk.jpg```
+- ```filename~desk@2x.jpg```
 
 The naming convention is based on naming convention for Apple's iOS. If you want, you can change the naming convention in ‘picture.php’.
 
