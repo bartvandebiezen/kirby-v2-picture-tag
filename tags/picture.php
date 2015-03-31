@@ -24,9 +24,9 @@ kirbytext::$tags['picture'] = array (
 
 		// Settings. You could change this if needed for your project. Modifiers are inspired by Apple's iOS.
 		$range1Modifier   = '~palm';
-		$range1UpperBound = '460px';
+		$range1UpperBound = '480px';
 		$range2Modifier   = '~lap';
-		$range2LowerBound = '461px';
+		$range2LowerBound = '481px';
 		$range2UpperBound = '1024px';
 		$range3Modifier   = '~desk';
 		$range3LowerBound = '1025px';
