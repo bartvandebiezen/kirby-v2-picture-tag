@@ -23,23 +23,23 @@ kirbytext::$tags['picture'] = array (
 		$height    = $tag->attr('height');
 
 		// Settings. You could change this if needed for your project. Modifiers are inspired by Apple's iOS.
-		$image1Modifier   = '~palm';
-		$image1UpperBound = '460px';
-		$image2Modifier   = '~lap';
-		$image2LowerBound = '461px';
-		$image2UpperBound = '1024px';
-		$image3Modifier   = '~desk';
-		$image3LowerBound = '1025px';
+		$range1Modifier   = '~palm';
+		$range1UpperBound = '460px';
+		$range2Modifier   = '~lap';
+		$range2LowerBound = '461px';
+		$range2UpperBound = '1024px';
+		$range3Modifier   = '~desk';
+		$range3LowerBound = '1025px';
 		$retinaModifier   = '@2x';
 
 		// State possible files
 		$image        = $tag->page()->file($name . $extension);
-		$image1       = $tag->page()->file($name . $image1Modifier . $extension);
-		$image1Retina = $tag->page()->file($name . $image1Modifier . $extension . $retinaModifier);
-		$image2       = $tag->page()->file($name . $image2Modifier . $extension);
-		$image2Retina = $tag->page()->file($name . $image2Modifier . $extension . $retinaModifier);
-		$image3       = $tag->page()->file($name . $image3Modifier . $extension);
-		$image3Retina = $tag->page()->file($name . $image3Modifier . $extension . $retinaModifier);
+		$image1       = $tag->page()->file($name . $range1Modifier . $extension);
+		$image1Retina = $tag->page()->file($name . $range1Modifier . $extension . $retinaModifier);
+		$image2       = $tag->page()->file($name . $range2Modifier . $extension);
+		$image2Retina = $tag->page()->file($name . $range2Modifier . $extension . $retinaModifier);
+		$image3       = $tag->page()->file($name . $range3Modifier . $extension);
+		$image3Retina = $tag->page()->file($name . $range3Modifier . $extension . $retinaModifier);
 
 		// Get the URL when file exist
 		if ($image)        { $url = $image->url(); }
@@ -63,21 +63,21 @@ kirbytext::$tags['picture'] = array (
 		if ($image1) { $buffer .= $url1; }
 		if ($image1 and $image1Retina) { $buffer .= ', '; }
 		if ($image1Retina) { $buffer .= $url1Retina . ' 2x'; }
-		if ($image1 or $image1Retina) { $buffer .= '" media="(max-width: ' . $image1UpperBound . ')">' . "\n"; }
+		if ($image1 or $image1Retina) { $buffer .= '" media="(max-width: ' . $range1UpperBound . ')">' . "\n"; }
 
 		// Source for lap (e.g. medium)
 		if ($image2 or $image2Retina) { $buffer .= '<source srcset="'; }
 		if ($image2) { $buffer .= $url2; }
 		if ($image2 and $image2Retina) { $buffer .= ', '; }
 		if ($image2Retina) { $buffer .= $url1Retina . ' 2x'; }
-		if ($image2 or $image2Retina) { $buffer .= '" media="(min-width: ' . $image2LowerBound . ') and (max-width: ' . $image2UpperBound .')">' . "\n"; }
+		if ($image2 or $image2Retina) { $buffer .= '" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n"; }
 
 		// Source for desk (e.g. large)
 		if ($image3 or $image3Retina) { $buffer .= '<source srcset="'; }
 		if ($image3) { $buffer .= $url3; }
 		if ($image3 and $image3Retina) { $buffer .= ', '; }
 		if ($image3Retina) { $buffer .= $url3Retina . ' 2x'; }
-		if ($image3 or $image3Retina) { $buffer .= '" media="(min-width: ' . $image3LowerBound . ')">' . "\n"; }
+		if ($image3 or $image3Retina) { $buffer .= '" media="(min-width: ' . $range3LowerBound . ')">' . "\n"; }
 
 		// Use image without modifiers as fall back.
 		$buffer .= '<img';
