@@ -16,7 +16,7 @@ An extension for KirbyText making the picture element available as a tag. Althou
 
 You can use the picture tag in your markdown files for Kirby as follows:
 
-(picture: filename extension: png class: my-classname caption: a figcaption alt: alt text width: 100px height: 200px)
+```(picture: filename extension: png class: my-classname caption: a figcaption alt: alt text width: 100px height: 200px)```
 
 Be careful, you need to write the filename without an extension. The extension is written as a separate attribute. When you do not use the extension attribute, the extension will be ‘jpg’.
 
