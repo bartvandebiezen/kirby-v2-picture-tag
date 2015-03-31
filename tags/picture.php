@@ -35,11 +35,11 @@ kirbytext::$tags['picture'] = array (
 		// State possible files
 		$image        = $tag->page()->file($name . $extension);
 		$image1       = $tag->page()->file($name . $range1Modifier . $extension);
-		$image1Retina = $tag->page()->file($name . $range1Modifier . $extension . $retinaModifier);
+		$image1Retina = $tag->page()->file($name . $range1Modifier . $retinaModifier . $extension);
 		$image2       = $tag->page()->file($name . $range2Modifier . $extension);
-		$image2Retina = $tag->page()->file($name . $range2Modifier . $extension . $retinaModifier);
+		$image2Retina = $tag->page()->file($name . $range2Modifier . $retinaModifier . $extension);
 		$image3       = $tag->page()->file($name . $range3Modifier . $extension);
-		$image3Retina = $tag->page()->file($name . $range3Modifier . $extension . $retinaModifier);
+		$image3Retina = $tag->page()->file($name . $range3Modifier . $retinaModifier . $extension);
 
 		// Get the URL when file exist
 		if ($image)        { $url = $image->url(); }
@@ -58,32 +58,44 @@ kirbytext::$tags['picture'] = array (
 		// Starting picture
 		$buffer .= '<picture>' . "\n";
 
-		// Source for palm (e.g. small)
-		if ($image1 or $image1Retina) { $buffer .= '<source srcset="'; }
-		if ($image1) { $buffer .= $url1; }
-		if ($image1 and $image1Retina) { $buffer .= ', '; }
-		if ($image1Retina) { $buffer .= $url1Retina . ' 2x'; }
-		if ($image1 or $image1Retina) { $buffer .= '" media="(max-width: ' . $range1UpperBound . ')">' . "\n"; }
+		// Source for palm (a.k.a. small)
+		if ($image1 or $image1Retina) {
+			if ($image1 and $image1Retina) {
+				$buffer .= '<source srcset="' . $url1 . ', ' . $url1Retina . ' 2x" media="(max-width: ' . $range1UpperBound . ')">' . "\n";
+			} else if ($image1) {
+				$buffer .= '<source srcset="' . $url1 . '" media="(max-width: ' . $range1UpperBound . ')">' . "\n";
+			} else if ($image1Retina) {
+				$buffer .= '<source srcset="' . $url1Retina . ' 2x" media="(max-width: ' . $range1UpperBound . ')">' . "\n";
+			}
+		}
 
-		// Source for lap (e.g. medium)
-		if ($image2 or $image2Retina) { $buffer .= '<source srcset="'; }
-		if ($image2) { $buffer .= $url2; }
-		if ($image2 and $image2Retina) { $buffer .= ', '; }
-		if ($image2Retina) { $buffer .= $url1Retina . ' 2x'; }
-		if ($image2 or $image2Retina) { $buffer .= '" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n"; }
+		// Source for lap (a.k.a. medium)
+		if ($image2 or $image2Retina) {
+			if ($image2 and $image2Retina) {
+				$buffer .= '<source srcset="' . $url2 . ', ' . $url2Retina . ' 2x" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n";
+			} else if ($image2) {
+				$buffer .= '<source srcset="' . $url2 . '" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n";
+			} else if ($image2Retina) {
+				$buffer .= '<source srcset="' . $url2Retina . ' 2x" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n";
+			}
+		}
 
-		// Source for desk (e.g. large)
-		if ($image3 or $image3Retina) { $buffer .= '<source srcset="'; }
-		if ($image3) { $buffer .= $url3; }
-		if ($image3 and $image3Retina) { $buffer .= ', '; }
-		if ($image3Retina) { $buffer .= $url3Retina . ' 2x'; }
-		if ($image3 or $image3Retina) { $buffer .= '" media="(min-width: ' . $range3LowerBound . ')">' . "\n"; }
+		// Source for desk (a.k.a. large)
+		if ($image3 or $image3Retina) {
+			if ($image3 and $image3Retina) {
+				$buffer .= '<source srcset="' . $url3 . ', ' . $url3Retina . ' 2x" media="(min-width: ' . $range3LowerBound . ')">' . "\n";
+			} else if ($image3) {
+				$buffer .= '<source srcset="' . $url3 . '" media="(min-width: ' . $range3LowerBound . ')">' . "\n";
+			} else if ($image3Retina) {
+				$buffer .= '<source srcset="' . $url3Retina . ' 2x" media="(min-width: ' . $range3LowerBound . ')">' . "\n";
+			}
+		}
 
 		// Use image without modifiers as fall back.
 		$buffer .= '<img';
 		if ($width) { $buffer .= ' width="' . $width . '"'; }
 		if ($height) { $buffer .= ' height="' . $height . '"'; }
-		if ($image) { $buffer .= ' src="' . $url . '"'; } else { $buffer .= ' src="' . $url3 . '"'; }
+		if ($image) { $buffer .= ' src="' . $url . '"'; } else if ($image3) { $buffer .= ' src="' . $url3 . '"'; }
 		if ($image3 and $image3Retina) { $buffer .= ' srcset="' . $url3 . ', ' . $url3Retina . ' 2x"'; }
 
 		if ($alt) { $buffer .= ' alt="' . $alt . '"'; }
