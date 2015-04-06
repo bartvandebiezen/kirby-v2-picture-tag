@@ -1,5 +1,24 @@
 <?php
 
+/**
+ * Picture Tag
+ *
+ * An extension for KirbyText making the picture element available as a tag.
+ * Although you can use the picture element for all responsive images. It is
+ * advised to only use it for art directional purposes. See
+ * http://responsiveimages.org/ for more information about the picture element.
+ *
+ * You can use the KirbyText tag in your text as: (picture: filename extension:
+ * png class: my-classname caption: a figcaption alt: alt text width: 100px
+ * height: 200px). Be careful, you need to write the filename without an
+ * extension. The extension is written as a separate attribute. When you do not
+ * use the extension attribute, the extension will be ‘jpg’.
+ * @author    Bart van de Biezen <bart@bartvandebiezen.com>
+ * @link      https://github.com/bartvandebiezen/kirby-v2-picture-tag
+ * @return    HTML
+ * @version   0.5
+ */
+
 kirbytext::$tags['picture'] = array (
 
 	'attr' => array (
