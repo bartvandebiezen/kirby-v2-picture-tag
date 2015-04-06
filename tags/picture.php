@@ -17,6 +17,7 @@
  * @link      https://github.com/bartvandebiezen/kirby-v2-picture-tag
  * @return    HTML
  * @version   0.5
+ * @todo      Add BEM style classes based on class attribute.
  */
 
 kirbytext::$tags['picture'] = array (
