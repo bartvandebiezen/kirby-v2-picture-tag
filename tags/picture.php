@@ -15,9 +15,9 @@
  * use the extension attribute, the extension will be ‘jpg’.
  * @author    Bart van de Biezen <bart@bartvandebiezen.com>
  * @link      https://github.com/bartvandebiezen/kirby-v2-picture-tag
- * @return    HTML
- * @version   0.5
- * @todo      Add BEM style classes based on class attribute.
+ * @return    HTML string
+ * @version   0.6
+ * @todo      Only use lower bounds for wider support
  */
 
 kirbytext::$tags['picture'] = array (
@@ -44,12 +44,15 @@ kirbytext::$tags['picture'] = array (
 
 		// Settings. You could change this if needed for your project. Modifiers are inspired by Apple's iOS.
 		$range1Modifier   = '~palm';
-		$range1UpperBound = '480px';
-		$range2Modifier   = '~lap';
-		$range2LowerBound = '481px';
-		$range2UpperBound = '1024px';
-		$range3Modifier   = '~desk';
-		$range3LowerBound = '1025px';
+		$range1UpperBound = '460px';
+		$range2Modifier   = '~hand';
+		$range2LowerBound = '461px';
+		$range2UpperBound = '700px';
+		$range3Modifier   = '~lap';
+		$range3LowerBound = '701px';
+		$range3UpperBound = '1060px';
+		$range4Modifier   = '~desk';
+		$range4LowerBound = '1061px';
 		$retinaModifier   = '@2x';
 
 		// State possible files
@@ -60,6 +63,8 @@ kirbytext::$tags['picture'] = array (
 		$image2Retina = $tag->page()->file($name . $range2Modifier . $retinaModifier . $extension);
 		$image3       = $tag->page()->file($name . $range3Modifier . $extension);
 		$image3Retina = $tag->page()->file($name . $range3Modifier . $retinaModifier . $extension);
+		$image4       = $tag->page()->file($name . $range4Modifier . $extension);
+		$image4Retina = $tag->page()->file($name . $range4Modifier . $retinaModifier . $extension);
 
 		// Get the URL when file exist
 		if ($image)        { $url = $image->url(); }
@@ -69,6 +74,8 @@ kirbytext::$tags['picture'] = array (
 		if ($image2Retina) { $url2Retina = $image2Retina->url(); }
 		if ($image3)       { $url3 = $image3->url(); }
 		if ($image3Retina) { $url3Retina = $image3Retina->url(); }
+		if ($image4)       { $url4 = $image4->url(); }
+		if ($image4Retina) { $url4Retina = $image4Retina->url(); }
 
 		// Starting figure
 		$buffer = '<figure';
@@ -76,7 +83,12 @@ kirbytext::$tags['picture'] = array (
 		$buffer .= '>' . "\n";
 
 		// Starting picture
-		$buffer .= '<picture>' . "\n";
+		$buffer .= '<picture';
+		if ($class) { $buffer .= ' class="' . $class . '__picture"'; }
+		$buffer .= '>' . "\n";
+
+		// HACK: support for IE9
+		$buffer .= '<!--[if IE 9]><video style="display: none;"><![endif]-->' . "\n";
 
 		// Source for palm (a.k.a. small)
 		if ($image1 or $image1Retina) {
@@ -89,7 +101,7 @@ kirbytext::$tags['picture'] = array (
 			}
 		}
 
-		// Source for lap (a.k.a. medium)
+		// Source for hand (a.k.a. smedium)
 		if ($image2 or $image2Retina) {
 			if ($image2 and $image2Retina) {
 				$buffer .= '<source srcset="' . $url2 . ', ' . $url2Retina . ' 2x" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n";
@@ -100,32 +112,60 @@ kirbytext::$tags['picture'] = array (
 			}
 		}
 
-		// Source for desk (a.k.a. large)
+		// Source for lap (a.k.a. medium)
 		if ($image3 or $image3Retina) {
 			if ($image3 and $image3Retina) {
-				$buffer .= '<source srcset="' . $url3 . ', ' . $url3Retina . ' 2x" media="(min-width: ' . $range3LowerBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url3 . ', ' . $url3Retina . ' 2x" media="(min-width: ' . $range3LowerBound . ') and (max-width: ' . $range3UpperBound .')">' . "\n";
 			} else if ($image3) {
-				$buffer .= '<source srcset="' . $url3 . '" media="(min-width: ' . $range3LowerBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url3 . '" media="(min-width: ' . $range3LowerBound . ') and (max-width: ' . $range3UpperBound .')">' . "\n";
 			} else if ($image3Retina) {
-				$buffer .= '<source srcset="' . $url3Retina . ' 2x" media="(min-width: ' . $range3LowerBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url3Retina . ' 2x" media="(min-width: ' . $range3LowerBound . ') and (max-width: ' . $range3UpperBound .')">' . "\n";
 			}
 		}
 
+		// Source for desk (a.k.a. large)
+		if ($image4 or $image4Retina) {
+			if ($image4 and $image4Retina) {
+				$buffer .= '<source srcset="' . $url4 . ', ' . $url4Retina . ' 2x" media="(min-width: ' . $range4LowerBound . ')">' . "\n";
+			} else if ($image4) {
+				$buffer .= '<source srcset="' . $url4 . '" media="(min-width: ' . $range4LowerBound . ')">' . "\n";
+			} else if ($image4Retina) {
+				$buffer .= '<source srcset="' . $url4Retina . ' 2x" media="(min-width: ' . $range4LowerBound . ')">' . "\n";
+			}
+		}
+
+		// HACK: support for IE9
+		$buffer .= '<!--[if IE 9]></video><![endif]-->' . "\n";
+
 		// Use image without modifiers as fall back.
 		$buffer .= '<img';
+		if ($class) { $buffer .= ' class="' . $class . '__image"'; }
 		if ($width) { $buffer .= ' width="' . $width . '"'; }
 		if ($height) { $buffer .= ' height="' . $height . '"'; }
-		if ($image) { $buffer .= ' src="' . $url . '"'; } else if ($image3) { $buffer .= ' src="' . $url3 . '"'; }
-		if ($image3 and $image3Retina) { $buffer .= ' srcset="' . $url3 . ', ' . $url3Retina . ' 2x"'; }
+		// To make sure browsers don't download two images, srcset is used instead of src for fall back.
+		if ($image) {
+			$buffer .= ' srcset="' . $url . '"';
+		} else if ($image3 and $image3Retina) {
+			$buffer .= ' srcset="' . $url3 . ', ' . $url3Retina . ' 2x"';
+		} else if ($image3) {
+			$buffer .= ' srcset="' . $url3 . '"';
+		}
 
+		// Optional alt text
 		if ($alt) { $buffer .= ' alt="' . $alt . '"'; }
+
+		// Ending image
 		$buffer .= '>' . "\n";
 
 		// Ending picture
 		$buffer .= '</picture>' . "\n";
 
 		// Optional figure caption
-		if ($caption) { $buffer .= '<figcaption>' . $caption . '</figcaption>' . "\n"; }
+		if ($caption) {
+			$buffer .= '<figcaption';
+			if ($class) { $buffer .= ' class="' . $class . '__caption"'; }
+			$buffer .= '>' . $caption . '</figcaption>' . "\n";
+		}
 
 		// Ending figure
 		$buffer .= '</figure>' . "\n";
