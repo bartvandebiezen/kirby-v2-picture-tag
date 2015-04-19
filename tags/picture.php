@@ -16,8 +16,7 @@
  * @author    Bart van de Biezen <bart@bartvandebiezen.com>
  * @link      https://github.com/bartvandebiezen/kirby-v2-picture-tag
  * @return    HTML string
- * @version   0.6
- * @todo      Only use lower bounds for wider support
+ * @version   0.6.5
  */
 
 kirbytext::$tags['picture'] = array (
@@ -44,15 +43,13 @@ kirbytext::$tags['picture'] = array (
 
 		// Settings. You could change this if needed for your project. Modifiers are inspired by Apple's iOS.
 		$range1Modifier   = '~palm';
-		$range1UpperBound = '460px';
+		$range1MediaQuery = '(max-width: 460px)';
 		$range2Modifier   = '~hand';
-		$range2LowerBound = '461px';
-		$range2UpperBound = '700px';
+		$range2MediaQuery = '(min-width: 461px) and (max-width: 700px)';
 		$range3Modifier   = '~lap';
-		$range3LowerBound = '701px';
-		$range3UpperBound = '1060px';
+		$range3MediaQuery = '(min-width: 701px) and (max-width: 1060px)';
 		$range4Modifier   = '~desk';
-		$range4LowerBound = '1061px';
+		$range4MediaQuery = '(min-width: 1061px)';
 		$retinaModifier   = '@2x';
 
 		// State possible files
@@ -93,44 +90,44 @@ kirbytext::$tags['picture'] = array (
 		// Source for palm (a.k.a. small)
 		if ($image1 or $image1Retina) {
 			if ($image1 and $image1Retina) {
-				$buffer .= '<source srcset="' . $url1 . ', ' . $url1Retina . ' 2x" media="(max-width: ' . $range1UpperBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url1 . ', ' . $url1Retina . ' 2x" media="' . $range1MediaQuery . '">' . "\n";
 			} else if ($image1) {
-				$buffer .= '<source srcset="' . $url1 . '" media="(max-width: ' . $range1UpperBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url1 . '" media="' . $range1MediaQuery . '">' . "\n";
 			} else if ($image1Retina) {
-				$buffer .= '<source srcset="' . $url1Retina . ' 2x" media="(max-width: ' . $range1UpperBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url1Retina . ' 2x" media="' . $range1MediaQuery . '">' . "\n";
 			}
 		}
 
 		// Source for hand (a.k.a. smedium)
 		if ($image2 or $image2Retina) {
 			if ($image2 and $image2Retina) {
-				$buffer .= '<source srcset="' . $url2 . ', ' . $url2Retina . ' 2x" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n";
+				$buffer .= '<source srcset="' . $url2 . ', ' . $url2Retina . ' 2x" media="' . $range2MediaQuery . '">' . "\n";
 			} else if ($image2) {
-				$buffer .= '<source srcset="' . $url2 . '" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n";
+				$buffer .= '<source srcset="' . $url2 . '" media="' . $range2MediaQuery . '">' . "\n";
 			} else if ($image2Retina) {
-				$buffer .= '<source srcset="' . $url2Retina . ' 2x" media="(min-width: ' . $range2LowerBound . ') and (max-width: ' . $range2UpperBound .')">' . "\n";
+				$buffer .= '<source srcset="' . $url2Retina . ' 2x" media="' . $range2MediaQuery . '">' . "\n";
 			}
 		}
 
 		// Source for lap (a.k.a. medium)
 		if ($image3 or $image3Retina) {
 			if ($image3 and $image3Retina) {
-				$buffer .= '<source srcset="' . $url3 . ', ' . $url3Retina . ' 2x" media="(min-width: ' . $range3LowerBound . ') and (max-width: ' . $range3UpperBound .')">' . "\n";
+				$buffer .= '<source srcset="' . $url3 . ', ' . $url3Retina . ' 2x" media="' . $range3MediaQuery . '">' . "\n";
 			} else if ($image3) {
-				$buffer .= '<source srcset="' . $url3 . '" media="(min-width: ' . $range3LowerBound . ') and (max-width: ' . $range3UpperBound .')">' . "\n";
+				$buffer .= '<source srcset="' . $url3 . '" media="' . $range3MediaQuery . '">' . "\n";
 			} else if ($image3Retina) {
-				$buffer .= '<source srcset="' . $url3Retina . ' 2x" media="(min-width: ' . $range3LowerBound . ') and (max-width: ' . $range3UpperBound .')">' . "\n";
+				$buffer .= '<source srcset="' . $url3Retina . ' 2x" media="' . $range3MediaQuery . '">' . "\n";
 			}
 		}
 
 		// Source for desk (a.k.a. large)
 		if ($image4 or $image4Retina) {
 			if ($image4 and $image4Retina) {
-				$buffer .= '<source srcset="' . $url4 . ', ' . $url4Retina . ' 2x" media="(min-width: ' . $range4LowerBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url4 . ', ' . $url4Retina . ' 2x" media="' . $range4MediaQuery . '">' . "\n";
 			} else if ($image4) {
-				$buffer .= '<source srcset="' . $url4 . '" media="(min-width: ' . $range4LowerBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url4 . '" media="' . $range4MediaQuery . '">' . "\n";
 			} else if ($image4Retina) {
-				$buffer .= '<source srcset="' . $url4Retina . ' 2x" media="(min-width: ' . $range4LowerBound . ')">' . "\n";
+				$buffer .= '<source srcset="' . $url4Retina . ' 2x" media="' . $range4MediaQuery . '">' . "\n";
 			}
 		}
 
