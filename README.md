@@ -23,11 +23,28 @@ This tag includes BEM style classes for complete styling control.
 - **alt**: image alt text.
 - **width**: width in pixels, given to image.
 - **height**: height in pixels, given to image.
+- **context**: overrides the default tag context (Useful for within PHP templates).
 
 You can use this KirbyText tag in your text as:
 
 ```
 (picture: scrum-process extension: png class: infographic caption: This is how Scrum works. alt: Scrum infographic width: 600px height: 400px)
+```
+
+You can use this KirbyText tag in your PHP template as:
+
+```
+foreach(page('projects')->children()->visible() as $project):
+    echo kirbytag(array(
+        'picture' => 'scrum-process',
+        'extension' => 'png',
+        'class' => 'infographic',
+        'alt' => 'This is how Scrum works',
+        'width' => '600px',
+        'height' => '400px',
+        'context' => $project
+    ));
+endforeach;
 ```
 
 Be careful, you need to write the filename without an extension. The extension is written as a separate attribute. When you do not use the extension attribute, the extension will be ‘jpg’.
