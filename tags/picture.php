@@ -28,6 +28,7 @@ kirbytext::$tags['picture'] = array (
 		'alt',
 		'width',
 		'height',
+		'context',
 	),
 
 	'html' => function ($tag) {
@@ -40,6 +41,7 @@ kirbytext::$tags['picture'] = array (
 		$alt       = $tag->attr('alt');
 		$width     = $tag->attr('width');
 		$height    = $tag->attr('height');
+		$context   = $tag->attr('context', $tag->page());
 
 		// Settings. You could change this if needed for your project. Modifiers are inspired by Apple's iOS.
 		$range1Modifier   = '~palm';
@@ -53,15 +55,15 @@ kirbytext::$tags['picture'] = array (
 		$retinaModifier   = '@2x';
 
 		// State possible files
-		$image        = $tag->page()->file($name . $extension);
-		$image1       = $tag->page()->file($name . $range1Modifier . $extension);
-		$image1Retina = $tag->page()->file($name . $range1Modifier . $retinaModifier . $extension);
-		$image2       = $tag->page()->file($name . $range2Modifier . $extension);
-		$image2Retina = $tag->page()->file($name . $range2Modifier . $retinaModifier . $extension);
-		$image3       = $tag->page()->file($name . $range3Modifier . $extension);
-		$image3Retina = $tag->page()->file($name . $range3Modifier . $retinaModifier . $extension);
-		$image4       = $tag->page()->file($name . $range4Modifier . $extension);
-		$image4Retina = $tag->page()->file($name . $range4Modifier . $retinaModifier . $extension);
+		$image        = $context->file($name . $extension);
+		$image1       = $context->file($name . $range1Modifier . $extension);
+		$image1Retina = $context->file($name . $range1Modifier . $retinaModifier . $extension);
+		$image2       = $context->file($name . $range2Modifier . $extension);
+		$image2Retina = $context->file($name . $range2Modifier . $retinaModifier . $extension);
+		$image3       = $context->file($name . $range3Modifier . $extension);
+		$image3Retina = $context->file($name . $range3Modifier . $retinaModifier . $extension);
+		$image4       = $context->file($name . $range4Modifier . $extension);
+		$image4Retina = $context->file($name . $range4Modifier . $retinaModifier . $extension);
 
 		// Get the URL when file exist
 		if ($image)        { $url = $image->url(); }
